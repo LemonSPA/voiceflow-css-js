@@ -1,0 +1,10 @@
+.vfrc-carousel .vfrc-image--background  {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: white;
+}
+
+.vfrc-widget--chat {
+  width: 800px;
+}
