@@ -5,3 +5,11 @@
 .vfrc-widget--launcher button:hover {
   background-color: white;
 }
+
+.vfrc-widget--chat {
+  width: 420px;
+}
+
+.vfrc-card {
+  width: 260px;
+}
