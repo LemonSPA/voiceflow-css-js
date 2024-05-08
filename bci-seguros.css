@@ -6,10 +6,12 @@
   background-color: white;
 }
 
-.vfrc-widget--chat {
-  width: 420px;
-}
+@media screen and (min-width: 768px) {
+  .vfrc-widget--chat {
+    width: 420px;
+  }
 
-.vfrc-card {
-  width: 260px;
+  .vfrc-card {
+    width: 260px;
+  }
 }
