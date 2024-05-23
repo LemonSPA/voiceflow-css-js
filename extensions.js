@@ -50,24 +50,12 @@ export const FileViewerDownloader = {
   match: ({ trace }) =>
     trace.type === 'ext_file_viewer_downloader' || trace.payload.name === 'ext_file_viewer_downloader',
   render: ({ trace, element }) => {
-    console.log('FileViewerDownloader trace:', trace)
-    let payload;
-    if (typeof trace.payload === 'string') {
-      try {
-        const cleanedPayload = trace.payload.replace(/\\/g, '/');
-        payload = JSON.parse(cleanedPayload);
-      } catch (error) {
-        console.error('Error parsing payload:', error);
-        return;
-      }
-    } else {
-      payload = trace.payload;
-    }
-
     const { fileURL, fileType, fileName } = trace.payload;
 
-
-    const container = document.createElement('div');
+    const container = document.createElement('a');
+    container.setAttribute('href', fileURL);
+    container.setAttribute('download', fileName);
+    container.setAttribute('target', '_blank');
     container.style.display = 'flex';
     container.style.alignItems = 'center';
     container.style.margin = '10px 0';
@@ -75,14 +63,16 @@ export const FileViewerDownloader = {
     container.style.border = '1px solid #ccc';
     container.style.borderRadius = '5px';
     container.style.backgroundColor = '#f9f9f9';
+    container.style.textDecoration = 'none'; // Remove underline from the link
+    container.style.cursor = 'pointer';
 
     // Crear el ícono dependiendo del tipo de archivo
     const iconElement = document.createElement('div');
     iconElement.style.marginRight = '10px';
 
-    if (fileType === 'pdf') {
+    if (fileType === 'application/pdf') {
       iconElement.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/1667px-PDF_file_icon.svg.png" alt="PDF Icon" style="width: 40px;">';
-    } else if (fileType === 'image') {
+    } else if (fileType.startsWith('image/')) {
       iconElement.innerHTML = '<img src="https://example.com/icons/image-icon.png" alt="Image Icon" style="width: 40px;">';
     } else {
       iconElement.innerHTML = '<img src="https://example.com/icons/file-icon.png" alt="File Icon" style="width: 40px;">';
@@ -99,24 +89,7 @@ export const FileViewerDownloader = {
 
     container.appendChild(nameElement);
 
-    // Crear el botón de descarga
-    const downloadButton = document.createElement('a');
-    downloadButton.setAttribute('href', fileURL);
-    downloadButton.setAttribute('download', '');
-    downloadButton.innerHTML = '⬇️';
-    downloadButton.style.marginLeft = '10px';
-    downloadButton.style.padding = '10px';
-    downloadButton.style.backgroundColor = '#2e6ee1';
-    downloadButton.style.color = 'white';
-    downloadButton.style.borderRadius = '5px';
-    downloadButton.style.textDecoration = 'none';
-    downloadButton.style.display = 'flex';
-    downloadButton.style.alignItems = 'center';
-    downloadButton.style.justifyContent = 'center';
-    downloadButton.style.cursor = 'pointer';
-
-    container.appendChild(downloadButton);
-
     element.appendChild(container);
   },
 };
+
