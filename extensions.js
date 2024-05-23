@@ -45,55 +45,64 @@ export const VideoExtension = {
 };
 
 export const FileViewerDownloader = {
-  name: 'File',
+  name: 'FileViewerDownloader',
   type: 'response',
   match: ({ trace }) =>
     trace.type === 'ext_file_viewer_downloader' || trace.payload.name === 'ext_file_viewer_downloader',
   render: ({ trace, element }) => {
-    const { fileURL, fileType, buttonText } = trace.payload;
+    const { fileURL, fileType, fileName } = trace.payload;
 
     const container = document.createElement('div');
     container.style.display = 'flex';
-    container.style.flexDirection = 'column';
     container.style.alignItems = 'center';
     container.style.margin = '10px 0';
+    container.style.padding = '10px';
+    container.style.border = '1px solid #ccc';
+    container.style.borderRadius = '5px';
+    container.style.backgroundColor = '#f9f9f9';
 
-    // Crear un elemento de vista previa dependiendo del tipo de archivo
-    let previewElement;
+    // Crear el ícono dependiendo del tipo de archivo
+    const iconElement = document.createElement('div');
+    iconElement.style.marginRight = '10px';
 
     if (fileType === 'pdf') {
-      previewElement = document.createElement('iframe');
-      previewElement.setAttribute('src', fileURL);
-      previewElement.style.width = '100%';
-      previewElement.style.height = '500px';
-      previewElement.style.border = '1px solid #ccc';
+      iconElement.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/1667px-PDF_file_icon.svg.png" alt="PDF Icon" style="width: 40px;">';
     } else if (fileType === 'image') {
-      previewElement = document.createElement('img');
-      previewElement.setAttribute('src', fileURL);
-      previewElement.style.maxWidth = '100%';
-      previewElement.style.border = '1px solid #ccc';
+      iconElement.innerHTML = '<img src="https://example.com/icons/image-icon.png" alt="Image Icon" style="width: 40px;">';
     } else {
-      previewElement = document.createElement('div');
-      previewElement.textContent = 'File preview not available';
-      previewElement.style.margin = '20px 0';
+      iconElement.innerHTML = '<img src="https://example.com/icons/file-icon.png" alt="File Icon" style="width: 40px;">';
     }
 
-    container.appendChild(previewElement);
+    container.appendChild(iconElement);
 
+    // Crear el nombre del archivo
+    const nameElement = document.createElement('div');
+    nameElement.textContent = fileName || 'Download File';
+    nameElement.style.flexGrow = '1';
+    nameElement.style.fontSize = '16px';
+    nameElement.style.color = '#333';
+
+    container.appendChild(nameElement);
+
+    // Crear el botón de descarga
     const downloadButton = document.createElement('a');
     downloadButton.setAttribute('href', fileURL);
     downloadButton.setAttribute('download', '');
-    downloadButton.textContent = buttonText || 'Download File';
-    downloadButton.style.marginTop = '10px';
-    downloadButton.style.padding = '10px 20px';
+    downloadButton.innerHTML = '⬇️';
+    downloadButton.style.marginLeft = '10px';
+    downloadButton.style.padding = '10px';
     downloadButton.style.backgroundColor = '#2e6ee1';
     downloadButton.style.color = 'white';
     downloadButton.style.borderRadius = '5px';
     downloadButton.style.textDecoration = 'none';
-    downloadButton.style.textAlign = 'center';
+    downloadButton.style.display = 'flex';
+    downloadButton.style.alignItems = 'center';
+    downloadButton.style.justifyContent = 'center';
     downloadButton.style.cursor = 'pointer';
+
     container.appendChild(downloadButton);
 
     element.appendChild(container);
   },
 };
+
