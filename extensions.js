@@ -50,11 +50,19 @@ export const FileViewerDownloader = {
   match: ({ trace }) =>
     trace.type === 'ext_file_viewer_downloader' || trace.payload.name === 'ext_file_viewer_downloader',
   render: ({ trace, element }) => {
+    let payload;
+    if (typeof trace.payload === 'string') {
+      try {
+        payload = JSON.parse(trace.payload);
+      } catch (error) {
+        console.error('Error parsing payload:', error);
+        return;
+      }
+    } else {
+      payload = trace.payload;
+    }
+
     const { fileURL, fileType, fileName } = trace.payload;
-    console.log('trace', trace)
-    console.log('fileURL', fileURL)
-    console.log('fileType', fileType)
-    console.log('fileName', fileName)
 
     const container = document.createElement('div');
     container.style.display = 'flex';
