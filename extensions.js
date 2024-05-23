@@ -61,13 +61,13 @@ export const FileViewerDownloader = {
     // Crear un elemento de vista previa dependiendo del tipo de archivo
     let previewElement;
 
-    if (fileType === 'application/pdf') {
+    if (fileType === 'pdf') {
       previewElement = document.createElement('iframe');
       previewElement.setAttribute('src', fileURL);
       previewElement.style.width = '100%';
       previewElement.style.height = '500px';
       previewElement.style.border = '1px solid #ccc';
-    } else if (fileType.startsWith('image/')) {
+    } else if (fileType === 'image') {
       previewElement = document.createElement('img');
       previewElement.setAttribute('src', fileURL);
       previewElement.style.maxWidth = '100%';
