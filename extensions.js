@@ -54,7 +54,8 @@ export const FileViewerDownloader = {
     let payload;
     if (typeof trace.payload === 'string') {
       try {
-        payload = JSON.parse(trace.payload);
+        const cleanedPayload = trace.payload.replace(/\\/g, '/');
+        payload = JSON.parse(cleanedPayload);
       } catch (error) {
         console.error('Error parsing payload:', error);
         return;
