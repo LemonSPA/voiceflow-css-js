@@ -51,6 +51,9 @@ export const FileViewerDownloader = {
     trace.type === 'ext_file_viewer_downloader' || trace.payload.name === 'ext_file_viewer_downloader',
   render: ({ trace, element }) => {
     const { fileURL, fileType, fileName } = trace.payload;
+    console.log('fileURL', fileURL)
+    console.log('fileType', fileType)
+    console.log('fileName', fileName)
 
     const container = document.createElement('div');
     container.style.display = 'flex';
