@@ -50,6 +50,7 @@ export const FileViewerDownloader = {
   match: ({ trace }) =>
     trace.type === 'ext_file_viewer_downloader' || trace.payload.name === 'ext_file_viewer_downloader',
   render: ({ trace, element }) => {
+    console.log('FileViewerDownloader trace:', trace)
     let payload;
     if (typeof trace.payload === 'string') {
       try {
@@ -63,6 +64,7 @@ export const FileViewerDownloader = {
     }
 
     const { fileURL, fileType, fileName } = trace.payload;
+
 
     const container = document.createElement('div');
     container.style.display = 'flex';
