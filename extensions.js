@@ -70,10 +70,10 @@ export const FileViewerDownloader = {
     const iconElement = document.createElement('div');
     iconElement.style.marginRight = '10px';
 
-    if (fileType === 'application/pdf') {
+    if (fileType === 'pdf') {
       iconElement.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/1667px-PDF_file_icon.svg.png" alt="PDF Icon" style="width: 40px;">';
-    } else if (fileType.startsWith('image/')) {
-      iconElement.innerHTML = '<img src="https://example.com/icons/image-icon.png" alt="Image Icon" style="width: 40px;">';
+    } else if (fileType === 'image') {
+      iconElement.innerHTML = '<img src="https://cdn.icon-icons.com/icons2/2570/PNG/512/image_icon_153794.png" alt="Image Icon" style="width: 40px;">';
     } else {
       iconElement.innerHTML = '<img src="https://example.com/icons/file-icon.png" alt="File Icon" style="width: 40px;">';
     }
