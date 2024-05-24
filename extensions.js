@@ -141,7 +141,7 @@ export const SelectExtension = {
           ${options.map(option => `<option value="${option}">${option}</option>`).join('')}
         </select>
       </div>
-      <button class="submit-button">Submit</button>
+      <button class="submit-button">Seleccionar</button>
     `;
 
     const selectElement = selectContainer.querySelector('.select-element');
