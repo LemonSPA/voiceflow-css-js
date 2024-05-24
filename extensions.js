@@ -93,3 +93,95 @@ export const FileViewerDownloader = {
   },
 };
 
+export const SpinboxExtension = {
+  name: 'Spinbox',
+  type: 'response',
+  match: ({ trace }) =>
+    trace.type === 'ext_spinbox' || trace.payload.name === 'ext_spinbox',
+  render: ({ trace, element }) => {
+    const { options } = trace.payload;
+
+    if (!Array.isArray(options) || options.length === 0) {
+      console.error('SpinboxExtension: No options provided or options is not an array');
+      return;
+    }
+
+    const spinboxContainer = document.createElement('div');
+
+    spinboxContainer.innerHTML = `
+      <style>
+        .spinbox-container {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+        .spinbox-button {
+          background-color: #2e7ff1;
+          border: none;
+          color: white;
+          padding: 10px;
+          cursor: pointer;
+          border-radius: 5px;
+        }
+        .spinbox-display {
+          padding: 10px;
+          border: 1px solid #ccc;
+          margin: 0 10px;
+          width: 100px;
+          text-align: center;
+        }
+        .submit-button {
+          background: linear-gradient(to right, #2e6ee1, #2e7ff1);
+          border: none;
+          color: white;
+          padding: 10px;
+          border-radius: 5px;
+          width: 100%;
+          cursor: pointer;
+        }
+      </style>
+
+      <div class="spinbox-container">
+        <button class="spinbox-button decrement">-</button>
+        <div class="spinbox-display">${options[0]}</div>
+        <button class="spinbox-button increment">+</button>
+      </div>
+      <button class="submit-button">Submit</button>
+    `;
+
+    const display = spinboxContainer.querySelector('.spinbox-display');
+    let currentIndex = 0;
+
+    const updateDisplay = () => {
+      display.textContent = options[currentIndex];
+    };
+
+    spinboxContainer.querySelector('.decrement').addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex -= 1;
+        updateDisplay();
+      }
+    });
+
+    spinboxContainer.querySelector('.increment').addEventListener('click', () => {
+      if (currentIndex < options.length - 1) {
+        currentIndex += 1;
+        updateDisplay();
+      }
+    });
+
+    spinboxContainer.querySelector('.submit-button').addEventListener('click', () => {
+      const selectedOption = options[currentIndex];
+      console.log('SpinboxExtension: Selected option:', selectedOption);
+
+      window.voiceflow.chat.interact({
+        type: 'complete',
+        payload: { selectedOption },
+      });
+    });
+
+    element.appendChild(spinboxContainer);
+
+    console.log('SpinboxExtension: Spinbox rendered with options:', options);
+  },
+}
