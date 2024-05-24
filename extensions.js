@@ -100,6 +100,7 @@ export const SpinboxExtension = {
     trace.type === 'ext_spinbox' || trace.payload.name === 'ext_spinbox',
   render: ({ trace, element }) => {
     const { options } = trace.payload;
+    console.log(trace.payload)
 
     if (!Array.isArray(options) || options.length === 0) {
       console.error('SpinboxExtension: No options provided or options is not an array');
