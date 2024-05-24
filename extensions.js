@@ -99,8 +99,13 @@ export const SpinboxExtension = {
   match: ({ trace }) =>
     trace.type === 'ext_spinbox' || trace.payload.name === 'ext_spinbox',
   render: ({ trace, element }) => {
-    const { options } = trace.payload;
-    console.log(trace.payload)
+    const optionsString = trace.payload.options;
+    if (typeof optionsString !== 'string' || optionsString.trim().length === 0) {
+      console.error('SpinboxExtension: No options provided or options is not a string');
+      return;
+    }
+
+    const options = optionsString.split(',').map(option => option.trim());
 
     if (!Array.isArray(options) || options.length === 0) {
       console.error('SpinboxExtension: No options provided or options is not an array');
@@ -173,7 +178,6 @@ export const SpinboxExtension = {
 
     spinboxContainer.querySelector('.submit-button').addEventListener('click', () => {
       const selectedOption = options[currentIndex];
-      console.log('SpinboxExtension: Selected option:', selectedOption);
 
       window.voiceflow.chat.interact({
         type: 'complete',
@@ -183,6 +187,5 @@ export const SpinboxExtension = {
 
     element.appendChild(spinboxContainer);
 
-    console.log('SpinboxExtension: Spinbox rendered with options:', options);
   },
 }
