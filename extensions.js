@@ -99,6 +99,7 @@ export const SpinboxExtension = {
   match: ({ trace }) =>
     trace.type === 'ext_spinbox' || trace.payload.name === 'ext_spinbox',
   render: ({ trace, element }) => {
+    console.log(trace.payload)
     const optionsString = trace.payload.options;
     if (typeof optionsString !== 'string' || optionsString.trim().length === 0) {
       console.error('SpinboxExtension: No options provided or options is not a string');
