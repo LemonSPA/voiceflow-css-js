@@ -93,48 +93,37 @@ export const FileViewerDownloader = {
   },
 };
 
-export const SpinboxExtension = {
-  name: 'Spinbox',
+export const SelectExtension = {
+  name: 'Select',
   type: 'response',
   match: ({ trace }) =>
-    trace.type === 'ext_spinbox' || trace.payload.name === 'ext_spinbox',
+    trace.type === 'ext_select' || trace.payload.name === 'ext_select',
   render: ({ trace, element }) => {
     const optionsString = trace.payload.options;
     if (typeof optionsString !== 'string' || optionsString.trim().length === 0) {
-      console.error('SpinboxExtension: No options provided or options is not a string');
+      console.error('SelectExtension: No options provided or options is not a string');
       return;
     }
 
     const options = optionsString.split(',').map(option => option.trim());
 
     if (!Array.isArray(options) || options.length === 0) {
-      console.error('SpinboxExtension: No options provided or options is not an array');
+      console.error('SelectExtension: No options provided or options is not an array');
       return;
     }
 
-    const spinboxContainer = document.createElement('div');
+    const selectContainer = document.createElement('div');
 
-    spinboxContainer.innerHTML = `
+    selectContainer.innerHTML = `
       <style>
-        .spinbox-container {
-          display: flex;
-          align-items: center;
+        .select-container {
           margin-bottom: 10px;
         }
-        .spinbox-button {
-          background-color: #2e7ff1;
-          border: none;
-          color: white;
+        .select-element {
+          width: 100%;
           padding: 10px;
-          cursor: pointer;
           border-radius: 5px;
-        }
-        .spinbox-display {
-          padding: 10px;
           border: 1px solid #ccc;
-          margin: 0 10px;
-          width: 100px;
-          text-align: center;
         }
         .submit-button {
           background: linear-gradient(to right, #2e6ee1, #2e7ff1);
@@ -147,37 +136,18 @@ export const SpinboxExtension = {
         }
       </style>
 
-      <div class="spinbox-container">
-        <button class="spinbox-button decrement">-</button>
-        <div class="spinbox-display">${options[0]}</div>
-        <button class="spinbox-button increment">+</button>
+      <div class="select-container">
+        <select class="select-element">
+          ${options.map(option => `<option value="${option}">${option}</option>`).join('')}
+        </select>
       </div>
       <button class="submit-button">Submit</button>
     `;
 
-    const display = spinboxContainer.querySelector('.spinbox-display');
-    let currentIndex = 0;
+    const selectElement = selectContainer.querySelector('.select-element');
 
-    const updateDisplay = () => {
-      display.textContent = options[currentIndex];
-    };
-
-    spinboxContainer.querySelector('.decrement').addEventListener('click', () => {
-      if (currentIndex > 0) {
-        currentIndex -= 1;
-        updateDisplay();
-      }
-    });
-
-    spinboxContainer.querySelector('.increment').addEventListener('click', () => {
-      if (currentIndex < options.length - 1) {
-        currentIndex += 1;
-        updateDisplay();
-      }
-    });
-
-    spinboxContainer.querySelector('.submit-button').addEventListener('click', () => {
-      const selectedOption = options[currentIndex];
+    selectContainer.querySelector('.submit-button').addEventListener('click', () => {
+      const selectedOption = selectElement.value;
 
       window.voiceflow.chat.interact({
         type: 'complete',
@@ -185,7 +155,6 @@ export const SpinboxExtension = {
       });
     });
 
-    element.appendChild(spinboxContainer);
-
+    element.appendChild(selectContainer);
   },
 }
