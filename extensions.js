@@ -105,7 +105,11 @@ export const SpinboxExtension = {
       return;
     }
 
+    console.log('optionsString:', optionsString)
+
     const options = optionsString.split(',').map(option => option.trim());
+
+    console.log('options:', options)
 
     if (!Array.isArray(options) || options.length === 0) {
       console.error('SpinboxExtension: No options provided or options is not an array');
