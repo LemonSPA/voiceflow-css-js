@@ -124,8 +124,6 @@ export const SelectExtension = {
           padding: 10px;
           border-radius: 5px;
           border: 1px solid #ccc;
-          max-height: 200px; /* Fija el tamaño del select */
-          overflow-y: auto; /* Añade scroll cuando el contenido excede el tamaño */
         }
         .submit-button {
           background: linear-gradient(to right, #2e6ee1, #2e7ff1);
@@ -135,6 +133,10 @@ export const SelectExtension = {
           border-radius: 5px;
           width: 100%;
           cursor: pointer;
+        }
+        .submit-button.disabled {
+          background: #ccc;
+          cursor: not-allowed;
         }
       </style>
 
@@ -157,8 +159,8 @@ export const SelectExtension = {
         payload: { selectedOption },
       });
 
-      submitButton.disabled = true; // Deshabilita el botón una vez que se hace clic
-      submitButton.style.cursor = 'not-allowed'; // Cambia el cursor para indicar que está deshabilitado
+      submitButton.disabled = true;
+      submitButton.classList.add('disabled');
     });
 
     element.appendChild(selectContainer);
