@@ -124,6 +124,8 @@ export const SelectExtension = {
           padding: 10px;
           border-radius: 5px;
           border: 1px solid #ccc;
+          max-height: 200px; /* Fija el tamaño del select */
+          overflow-y: auto; /* Añade scroll cuando el contenido excede el tamaño */
         }
         .submit-button {
           background: linear-gradient(to right, #2e6ee1, #2e7ff1);
@@ -145,14 +147,18 @@ export const SelectExtension = {
     `;
 
     const selectElement = selectContainer.querySelector('.select-element');
+    const submitButton = selectContainer.querySelector('.submit-button');
 
-    selectContainer.querySelector('.submit-button').addEventListener('click', () => {
+    submitButton.addEventListener('click', () => {
       const selectedOption = selectElement.value;
 
       window.voiceflow.chat.interact({
         type: 'complete',
         payload: { selectedOption },
       });
+
+      submitButton.disabled = true; // Deshabilita el botón una vez que se hace clic
+      submitButton.style.cursor = 'not-allowed'; // Cambia el cursor para indicar que está deshabilitado
     });
 
     element.appendChild(selectContainer);
