@@ -1,3 +1,7 @@
+.vfrc-card .vfrc-image {
+  max-height: 138px;
+}
+
 @media screen and (min-width: 768px) {
   .vfrc-widget--chat {
     width: 500px;
