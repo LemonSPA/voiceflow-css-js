@@ -2,6 +2,11 @@
   max-height: 138px;
 }
 
+.vfrc-widget--launcher {
+  border: 3px solid #003366;
+  border-radius: 100%;
+}
+
 @media screen and (min-width: 768px) {
   .vfrc-widget--chat {
     width: 500px;
